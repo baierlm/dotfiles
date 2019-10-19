@@ -332,7 +332,7 @@ def init_widgets_list():
                         foreground = colors[5],
                         background = colors[1],
                         ),
-               widget.Notify(),
+               #Using the Notify widget will disable other notification services 
 
                widget.CPUGraph(
                         border_color = colors[2],
@@ -344,16 +344,7 @@ def init_widgets_list():
                         core = "all",
                         type = "box"
                         ),
-                        # do not activate in Virtualbox - will break qtile
-              widget.ThermalSensor(
-                        foreground = colors[5],
-                        foreground_alert = colors[6],
-                        background = colors[1],
-                        metric = True,
-                        padding = 3,
-                        threshold = 80
-                        ),
-               widget.Sep(
+              widget.Sep(
                         linewidth = 1,
                         padding = 10,
                         foreground = colors[2],
