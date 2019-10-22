@@ -24,7 +24,7 @@ function run {
 feh --bg-scale ~/.config/qtile/wall.jpg &
 #start the conky to learn the shortcuts
 #(conky -c $HOME/.config/qtile/scripts/system-overview) &
-
+#
 #starting utility applications at boot time
 run unclutter &
 run nm-applet &

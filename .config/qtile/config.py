@@ -60,6 +60,7 @@ keys = [
 
 # SUPER + FUNCTION KEYS
 
+    Key([mod, "shift"], "t", lazy.spawn('notify-send "test"')),
     Key([mod], "Print", lazy.spawn('xfce4-screenshooter')),
     Key([mod], "f", lazy.spawn('firefox')),
     Key([mod], "d", lazy.spawn('rofi -show run')),
@@ -69,7 +70,6 @@ keys = [
     #Key([mod], "u", subprocess.call('unzip -u -o -d $UNI $HOME/Dropbox/TU/$SEMESTER')),
     Key([mod], "u", lazy.spawn('unzip -u -o -d /home/mark/TU /home/mark/Dropbox/TU/WiSe-2019,20')),
 # SUPER + SHIFT KEYS
-    
 
     Key([mod, "shift"], "l", subprocess.call([home + '/.screenlayout/auto.sh'])),
     Key([mod, "shift"], "p", lazy.spawn('rofi-pass')),
@@ -89,7 +89,7 @@ keys = [
 # SCREENSHOTS
 
     Key([], "Print", lazy.spawn("scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'")),
-   Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
+    Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
 
 # MULTIMEDIA KEYS
 
@@ -238,7 +238,7 @@ for i in groups:
 
 
 def init_layout_theme():
-    return {"margin":5,
+    return {"margin":0,
             "border_width":2,
             "border_focus": "#5e81ac",
             "border_normal": "#4c566a"
@@ -248,8 +248,8 @@ layout_theme = init_layout_theme()
 
 
 layouts = [
-    layout.MonadTall(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
-    layout.MonadWide(margin=8, border_width=2, border_focus="#5e81ac", border_normal="#4c566a"),
+    layout.MonadTall(**layout_theme),
+    layout.MonadWide(**layout_theme),
     layout.Matrix(**layout_theme),
     layout.Bsp(**layout_theme),
     layout.Floating(**layout_theme),
@@ -450,25 +450,52 @@ dgroups_app_rules = []
 
 main = None
 
+# Startup hooks
 @hook.subscribe.startup_once
 def start_once():
     home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])
+
 
 @hook.subscribe.startup
 def start_always():
     # Set the cursor to something sane in X
     subprocess.Popen(['xsetroot', '-cursor_name', 'left_ptr'])
 
-@hook.subscribe.client_new
-def set_floating(window):
-    if (window.window.get_wm_transient_for()
-            or window.window.get_wm_type() in floating_types):
-        window.floating = True
-
+# Screen change hooks
 @hook.subscribe.screen_change
 def screen_change(qtile, env):
     qtile.cmd_restart()
+
+
+# Client hooks
+@hook.subscribe.client_new
+def set_floating(window):
+    if (window.window.get_wm_transient_for()
+           or window.window.get_wm_type() in floating_types):
+        window.floating = True
+
+
+@hook.subscribe.client_managed
+def client_managed(window):
+    if(len(window.group.info()['windows']) > 1):
+        window.layout.margin = 8
+
+
+@hook.subscribe.client_killed
+def client_killed(window):
+    # the deleted client will still be in window in the info
+    if(len(window.group.info()['windows']) <= 2):
+        window.layout.margin = 0
+
+# Layout change hooks
+@hook.subscribe.layout_change
+def layout_change(layout, group):
+    if(len(group.info()['windows']) <= 1):   
+        layout.margin = 0
+    else:
+        layout.margin = 8
+
 
 floating_types = ["notification", "toolbar", "splash", "dialog"]
 
