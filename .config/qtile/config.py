@@ -478,15 +478,16 @@ def set_floating(window):
 
 @hook.subscribe.client_managed
 def client_managed(window):
+    # subprocess.Popen(['notify-send', '-u', 'critical', str(window.group.layout)])
     if(len(window.group.info()['windows']) > 1):
-        window.layout.margin = 8
+        window.group.layout.margin = 8
 
 
 @hook.subscribe.client_killed
 def client_killed(window):
     # the deleted client will still be in window in the info
     if(len(window.group.info()['windows']) <= 2):
-        window.layout.margin = 0
+        window.group.layout.margin = 0
 
 # Layout change hooks
 @hook.subscribe.layout_change
