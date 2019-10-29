@@ -26,15 +26,12 @@
 
 
 import os
-import re
 import socket
 import subprocess
 from libqtile.config import ScratchPad, DropDown, Drag, Key, Screen, Group, Drag, Click, Rule
 from libqtile.command import lazy, Client
 from libqtile import layout, bar, widget, hook
-from libqtile.widget import Spacer
-import arcobattery
-import arcomemory
+from widgets import init_widgets_list
 
 # mod4 or mod = super key
 mod = "mod4"
@@ -60,7 +57,7 @@ def window_to_next_group(qtile):
 keys = [
 
     # SUPER + FUNCTION KEYS
-
+    # Key([mod, 'shift'], "t", subprocess.Popen(['notify-send', os.environ['HOME']])),
     # Key([mod], "t", lazy.group["scratchpad"].dropdown_toggle("qshell")),
     Key([mod], "t", lazy.group["scratchpad"].dropdown_toggle("term")),
     Key([mod], "Print", lazy.spawn('xfce4-screenshooter')),
@@ -69,13 +66,10 @@ keys = [
     Key([mod], "q", lazy.window.kill()),
     Key([mod], "x", lazy.spawn('oblogout')),
     Key([mod], "Return", lazy.spawn('termite')),
-    #Key([mod], "u", subprocess.call('unzip -u -o -d $UNI $HOME/Dropbox/TU/$SEMESTER')),
-    Key([mod], "u", lazy.spawn(
-        'unzip -u -o -d /home/mark/TU /home/mark/Dropbox/TU/WiSe-2019,20')),
-    # SUPER + SHIFT KEYS
+    Key([mod], "u", lazy.spawn('update-uni')),
 
-    Key([mod, "shift"], "l", subprocess.call(
-        [home + '/.screenlayout/auto.sh'])),
+    # SUPER + SHIFT KEYS
+    Key([mod, "shift"], "l", subprocess.call([home + '/.screenlayout/auto.sh'])),
     Key([mod, "shift"], "p", lazy.spawn('rofi-pass')),
     Key([mod, "shift"], "f", lazy.window.toggle_fullscreen()),
     Key([mod, "shift"], "q", lazy.window.kill()),
@@ -96,8 +90,6 @@ keys = [
         "scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'")),
     Key([mod2, "shift"], "Print", lazy.spawn('gnome-screenshot -i')),
 
-    # MULTIMEDIA KEYS
-
     # INCREASE/DECREASE BRIGHTNESS
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),
     Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklighti -dec 10")),
@@ -106,16 +98,6 @@ keys = [
     Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer -q set Master 5%-")),
     Key([], "XF86AudioRaiseVolume", lazy.spawn("amixer -q set Master 5%+")),
-
-    Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause")),
-    Key([], "XF86AudioNext", lazy.spawn("playerctl next")),
-    Key([], "XF86AudioPrev", lazy.spawn("playerctl previous")),
-    Key([], "XF86AudioStop", lazy.spawn("playerctl stop")),
-
-    #    Key([], "XF86AudioPlay", lazy.spawn("mpc toggle")),
-    #    Key([], "XF86AudioNext", lazy.spawn("mpc next")),
-    #    Key([], "XF86AudioPrev", lazy.spawn("mpc prev")),
-    #    Key([], "XF86AudioStop", lazy.spawn("mpc stop")),
 
     # QTILE LAYOUT KEYS
     Key([mod], "n", lazy.layout.normalize()),
@@ -130,7 +112,6 @@ keys = [
     Key([mod], "j", lazy.layout.down()),
     Key([mod], "h", lazy.layout.left()),
     Key([mod], "l", lazy.layout.right()),
-
 
     # RESIZE UP, DOWN, LEFT, RIGHT
     Key([mod, "control"], "l",
@@ -178,7 +159,6 @@ keys = [
         lazy.layout.increase_nmaster(),
         ),
 
-
     # FLIP LAYOUT FOR MONADTALL/MONADWIDE
     Key([mod, "shift"], "f", lazy.layout.flip()),
 
@@ -203,21 +183,14 @@ keys = [
     # TOGGLE FLOATING LAYOUT
     Key([mod, "shift"], "space", lazy.window.toggle_floating()), ]
 
-groups = []
-
-
-# FOR QWERTY KEYBOARDS
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ]
 
-# FOR AZERTY KEYBOARDS
-# group_names = ["ampersand", "eacute", "quotedbl", "apostrophe", "parenleft", "section", "egrave", "exclam", "ccedilla", "agrave",]
 group_labels = group_names
-# group_labels = ["", "", "", "", "", "", "", "", "", "",]
-# group_labels = ["Web", "Edit", "Ink", "Gimp", "Meld", "Vlc", "VB", "Thunar", "Mail", "Music",]
 
-# group_layouts = ["tile", "tile", "tile", "tile","tile", "tile", "tile", "tile", "tile", "tile", ]
-group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall",]
-# group_layouts = ["monadtall", "matrix", "monadtall", "bsp", "monadtall", "matrix", "monadtall", "bsp", "monadtall", "monadtall",]
+group_layouts = ["monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall", "monadtall",
+                 "monadtall", "monadtall", ]
+
+groups = []
 
 for i in range(len(group_names)):
     groups.append(
@@ -230,7 +203,6 @@ for i in range(len(group_names)):
 
 for group in groups:
     keys.extend([
-
         # CHANGE WORKSPACES
         Key([mod], group.name, lazy.group[group.name].toscreen()),
         Key([mod], "Tab", lazy.screen.next_group()),
@@ -243,16 +215,17 @@ for group in groups:
         Key([mod, "shift"], group.name, lazy.window.togroup(
             group.name), lazy.group[group.name].toscreen()),
     ])
+
 groups.extend([ScratchPad("scratchpad", [
     # define a drop down terminal.
     # it is placed in the upper third of screen by default.
-    DropDown("term", "termite", opacity=0.8),
+    DropDown("term", "termite --config=" + home + "/.config/termite/config-no-trans", opacity=1),
 
     # define another terminal exclusively for qshell at different position
     DropDown("qshell", "termite --hold -e qshell",
              x=0.05, y=0.4, width=0.9, height=0.6, opacity=0.9,
              on_focus_lost_hide=True)]),
-])
+               ])
 
 
 def init_layout_theme():
@@ -265,7 +238,6 @@ def init_layout_theme():
 
 layout_theme = init_layout_theme()
 
-
 layouts = [
     layout.MonadTall(**layout_theme),
     layout.MonadWide(**layout_theme),
@@ -273,189 +245,13 @@ layouts = [
     layout.Zoomy(**layout_theme),
 ]
 
-# COLORS FOR THE BAR
-
-
-def init_colors():
-    return [["#2F343F", "#2F343F"],  # color 0
-            ["#2F343F", "#2F343F"],  # color 1
-            ["#c0c5ce", "#c0c5ce"],  # color 2
-            ["#fba922", "#fba922"],  # color 3
-            ["#3384d0", "#3384d0"],  # color 4
-            ["#f3f4f5", "#f3f4f5"],  # color 5
-            ["#cd1f3f", "#cd1f3f"],  # color 6
-            ["#62FF00", "#62FF00"],  # color 7
-            ["#6790eb", "#6790eb"],  # color 8
-            ["#a9a9a9", "#a9a9a9"]]  # color 9
-
-
-colors = init_colors()
-
-
-# WIDGETS FOR THE BAR
-
-def init_widgets_defaults():
-    return dict(font="Noto Sans",
-                fontsize=12,
-                padding=2,
-                background=colors[1])
-
-
-widget_defaults = init_widgets_defaults()
-
-
-def init_widgets_list():
-    prompt = "{0}@{1}: ".format(os.environ["USER"], socket.gethostname())
-    widgets_list = [
-        widget.CurrentLayoutIcon(
-            font="Noto Sans Bold",
-            foreground=colors[5],
-            background=colors[1]
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.GroupBox(font="FontAwesome",
-                        fontsize=16,
-                        margin_y=-1,
-                        margin_x=0,
-                        padding_y=6,
-                        padding_x=5,
-                        borderwidth=0,
-                        disable_drag=True,
-                        active=colors[9],
-                        inactive=colors[5],
-                        rounded=False,
-                        highlight_method="line",
-                        this_current_screen_border=colors[8],
-                        foreground=colors[2],
-                        background=colors[1],
-                        hide_unused=True,
-                        markup=True
-                        ),
-
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.WindowName(font="Noto Sans",
-                          fontsize=12,
-                          foreground=colors[5],
-                          background=colors[1],
-                          ),
-        # Using the Notify widget will disable other notification services
-
-        widget.CPUGraph(
-            border_color=colors[2],
-            fill_color=colors[8],
-            graph_color=colors[8],
-            background=colors[1],
-            border_width=0,
-            line_width=1,
-            core="all",
-            type="box"
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        # widget.TextBox(
-        #         font="FontAwesome",
-        #         text="  ",
-        #         foreground=colors[4],
-        #         background=colors[1],
-        #         padding = 0,
-        #         fontsize=16
-        #         ),
-        arcomemory.Memory(
-            font="Noto Sans",
-            fmt='{MemUsed}/{MemTotal}M',
-            update_interval=1,
-            fontsize=12,
-            foreground=colors[5],
-            background=colors[1],
-        ),
-        # battery option 1  or ArcoLinux Horizontal icons by default
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        arcobattery.BatteryIcon(
-            padding=0,
-            scale=0.6,
-            y_poss=3,
-            theme_path=home + "/.config/qtile/icons/battery_icons_horiz",
-            update_interval=5,
-            background=colors[1]
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.TextBox(
-            font="FontAwesome",
-            text="  ",
-            foreground=colors[3],
-            background=colors[1],
-            padding=0,
-            fontsize=16
-        ),
-        widget.Clock(
-            foreground=colors[5],
-            background=colors[1],
-            fontsize=12,
-            format="%Y-%m-%d %H:%M"
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.Systray(
-            background=colors[1],
-            icon_size=20,
-            padding=4
-        ),
-    ]
-    return widgets_list
-
-
-widgets_list = init_widgets_list()
-
-
-def init_widgets_screen1():
-    widgets_screen1 = init_widgets_list()
-    return widgets_screen1
-
-
-def init_widgets_screen2():
-    widgets_screen2 = init_widgets_list()
-    return widgets_screen2
-
-
-widgets_screen1 = init_widgets_screen1()
-widgets_screen2 = init_widgets_screen2()
-
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_screen1(), size=20)),
-            Screen(top=bar.Bar(widgets=init_widgets_screen2(), size=20))]
+    return [Screen(top=bar.Bar(widgets=init_widgets_list(), size=20)),
+            Screen(top=bar.Bar(widgets=init_widgets_list(), size=20))]
 
 
 screens = init_screens()
-
 
 # MOUSE CONFIGURATION
 mouse = [
@@ -466,15 +262,15 @@ mouse = [
 ]
 
 dgroups_key_binder = None
+
 dgroups_app_rules = []
 
-
 main = None
+
 
 # Startup hooks
 @hook.subscribe.startup_once
 def start_once():
-    home = os.path.expanduser('~')
     subprocess.call([home + '/.config/qtile/scripts/autostart.sh'])
 
 
@@ -482,6 +278,7 @@ def start_once():
 def start_always():
     # Set the cursor to something sane in X
     subprocess.Popen(['xsetroot', '-cursor_name', 'left_ptr'])
+
 
 # Screen change hooks
 @hook.subscribe.screen_change
@@ -500,27 +297,27 @@ def set_floating(window):
 @hook.subscribe.client_managed
 def client_managed(window):
     # subprocess.Popen(['notify-send', '-u', 'critical', str(window.group.layout)])
-    if(len(window.group.info()['windows']) > 1):
+    if len(window.group.info()['windows']) > 1:
         window.group.layout.margin = 8
 
 
 @hook.subscribe.client_killed
 def client_killed(window):
     # the deleted client will still be in window in the info
-    if(len(window.group.info()['windows']) <= 2):
+    if len(window.group.info()['windows']) <= 2:
         window.group.layout.margin = 0
+
 
 # Layout change hooks
 @hook.subscribe.layout_change
 def layout_change(layout, group):
-    if(len(group.info()['windows']) <= 1):
+    if len(group.info()['windows']) <= 1:
         layout.margin = 0
     else:
         layout.margin = 8
 
 
 floating_types = ["notification", "toolbar", "splash", "dialog"]
-
 
 follow_mouse_focus = True
 bring_front_click = False
@@ -546,7 +343,7 @@ floating_layout = layout.Floating(float_rules=[
     {'wname': 'pinentry'},
     {'wmclass': 'ssh-askpass'},
 
-],  fullscreen_border_width=0, border_width=0)
+], fullscreen_border_width=0, border_width=0)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 

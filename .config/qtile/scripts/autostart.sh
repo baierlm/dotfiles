@@ -36,6 +36,7 @@ blueberry-tray &
 compton --config $HOME/.config/qtile/scripts/compton.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 dunst &
+entr_init &
 #/usr/lib/xfce4/notifyd/xfce4-notifyd &
 
 #starting user applications at boot time
