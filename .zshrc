@@ -95,6 +95,12 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
+ 
+alias gnlp="cd $UNI/$SEMESTER/NLP/Tutorium"
+alias gims="cd $UNI/$SEMESTER/BP/webapp-ims/packages"
+alias gtu="cd $UNI/$SEMESTER"
+alias gcq="cd ~/.config/qtile"
+
 # Example aliases
  alias zshconfig="nvim ~/.zshrc"
  alias ohmyzsh="nvim ~/.oh-my-zsh"

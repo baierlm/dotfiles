@@ -78,7 +78,25 @@ def init_widgets_list():
             border_width=0,
             line_width=1,
             core="all",
-            type="box"
+            type="box",
+            width=100
+        ),
+        widget.Sep(
+            linewidth=1,
+            padding=10,
+            foreground=colors[2],
+            background=colors[1]
+        ),
+        widget.NetGraph(
+            border_color=colors[2],
+            fill_color=colors[8],
+            graph_color=colors[8],
+            background=colors[1],
+            border_width=0,
+            line_width=1,
+            core="all",
+            type="box",
+            width=100
         ),
         widget.Sep(
             linewidth=1,
@@ -137,7 +155,12 @@ def init_widgets_list():
             fontsize=12,
             format="%Y-%m-%d %H:%M"
         ),
-        widget.Sep(
+            ]
+
+
+def init_main_widgets_list():
+    widget_list = init_widgets_list()
+    widget_list.extend([widget.Sep(
             linewidth=1,
             padding=10,
             foreground=colors[2],
@@ -147,5 +170,6 @@ def init_widgets_list():
             background=colors[1],
             icon_size=20,
             padding=4
-        ),
-    ]
+        )])
+    return widget_list
+

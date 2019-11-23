@@ -23,7 +23,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
+#
 
 import os
 import socket
@@ -31,7 +31,8 @@ import subprocess
 from libqtile.config import ScratchPad, DropDown, Drag, Key, Screen, Group, Drag, Click, Rule
 from libqtile.command import lazy, Client
 from libqtile import layout, bar, widget, hook
-from widgets import init_widgets_list
+from widgets import init_widgets_list, init_main_widgets_list
+
 
 # mod4 or mod = super key
 mod = "mod4"
@@ -54,6 +55,9 @@ def window_to_next_group(qtile):
         qtile.currentWindow.togroup(qtile.groups[i + 1].name)
 
 
+def temp():
+    subprocess.Popen(['python', home + '/.config/qtile/group_setups.py'])
+
 keys = [
 
     # SUPER + FUNCTION KEYS
@@ -64,9 +68,9 @@ keys = [
     Key([mod], "f", lazy.spawn('firefox')),
     Key([mod], "d", lazy.spawn('rofi -show run')),
     Key([mod], "q", lazy.window.kill()),
-    Key([mod], "x", lazy.spawn('oblogout')),
-    Key([mod], "Return", lazy.spawn('termite')),
+    Key([mod], "x", lazy.spawn('oblogout')),    Key([mod], "Return", lazy.spawn('termite')),
     Key([mod], "u", lazy.spawn('update-uni')),
+    Key([mod], "s", lazy.run_external(home + '/.config/qtile/group_setups.py')),
 
     # SUPER + SHIFT KEYS
     Key([mod, "shift"], "l", subprocess.call([home + '/.screenlayout/auto.sh'])),
@@ -92,7 +96,7 @@ keys = [
 
     # INCREASE/DECREASE BRIGHTNESS
     Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 10")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklighti -dec 10")),
+    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 10")),
 
     # INCREASE/DECREASE/MUTE VOLUME
     Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
@@ -247,7 +251,7 @@ layouts = [
 
 
 def init_screens():
-    return [Screen(top=bar.Bar(widgets=init_widgets_list(), size=20)),
+    return [Screen(top=bar.Bar(widgets=init_main_widgets_list(), size=20)),
             Screen(top=bar.Bar(widgets=init_widgets_list(), size=20))]
 
 
