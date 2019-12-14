@@ -21,7 +21,7 @@ function run {
 #setxkbmap -layout be
 #run $HOME/.screenlayout/left.sh
 #Some ways to set your wallpaper besides variety or nitrogen
-feh --bg-scale ~/.config/qtile/wall.jpg &
+feh --bg-scale /home/mark/Pictures/wallhaven-5w6319.jpg &
 #start the conky to learn the shortcuts
 #(conky -c $HOME/.config/qtile/scripts/system-overview) &
 #
@@ -35,9 +35,9 @@ numlockx on &
 blueberry-tray &
 compton --config $HOME/.config/qtile/scripts/compton.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-dunst &
+#dunst &
 entr_init &
-#/usr/lib/xfce4/notifyd/xfce4-notifyd &
+/usr/lib/xfce4/notifyd/xfce4-notifyd &
 
 #starting user applications at boot time
 #run volumeicon &

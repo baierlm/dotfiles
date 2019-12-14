@@ -19,8 +19,20 @@ def init_colors():
             ["#6790eb", "#6790eb"],  # color 8
             ["#a9a9a9", "#a9a9a9"]]  # color 9
 
+def gruvbox():
+    return [['#282828','#282828'],    # color 0
+            ['#282828','#282828'],    # color 1
+            ['#282828','#282828'],    # color 2
+            ['#fabd2f','#fabd2f'],    # color 3
+            ['#83a598','#83a598'],    # color 4
+            ['#d5c4a1','#d5c4a1'],    # color 5
+            ['#8ec07c','#8ec07c'],    # color 6
+            ['#d5c4a1','#d5c4a1'],    # color 7
+            ['#665c54','#665c54'],    # color 8
+            ['#fb4934','#fb4934']]    # color 9
 
-colors = init_colors()
+
+colors = gruvbox();
 
 
 # WIDGETS FOR THE BAR
@@ -30,12 +42,6 @@ def init_widgets_list():
         widget.CurrentLayoutIcon(
             font="Noto Sans Bold",
             foreground=colors[5],
-            background=colors[1]
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
             background=colors[1]
         ),
         widget.GroupBox(font="FontAwesome",
@@ -56,62 +62,12 @@ def init_widgets_list():
                         hide_unused=True,
                         markup=True
                         ),
-
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
         widget.WindowName(font="Noto Sans",
                           fontsize=12,
                           foreground=colors[5],
                           background=colors[1],
                           ),
         # Using the Notify widget will disable other notification services
-
-        widget.CPUGraph(
-            border_color=colors[2],
-            fill_color=colors[8],
-            graph_color=colors[8],
-            background=colors[1],
-            border_width=0,
-            line_width=1,
-            core="all",
-            type="box",
-            width=100
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.NetGraph(
-            border_color=colors[2],
-            fill_color=colors[8],
-            graph_color=colors[8],
-            background=colors[1],
-            border_width=0,
-            line_width=1,
-            core="all",
-            type="box",
-            width=100
-        ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        # widget.TextBox(
-        #         font="FontAwesome",
-        #         text="  ",
-        #         foreground=colors[4],
-        #         background=colors[1],
-        #         padding = 0,
-        #         fontsize=16
-        #         ),
         arcomemory.Memory(
             font="Noto Sans",
             fmt='{MemUsed}/{MemTotal}M',
@@ -120,13 +76,7 @@ def init_widgets_list():
             foreground=colors[5],
             background=colors[1],
         ),
-        # battery option 1  or ArcoLinux Horizontal icons by default
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
+        # battery option 1 or ArcoLinux Horizontal icons by default
         arcobattery.BatteryIcon(
             padding=0,
             scale=0.6,
@@ -135,37 +85,19 @@ def init_widgets_list():
             update_interval=5,
             background=colors[1]
         ),
-        widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
-        widget.TextBox(
-            font="FontAwesome",
-            text="  ",
-            foreground=colors[3],
-            background=colors[1],
-            padding=0,
-            fontsize=16
-        ),
-        widget.Clock(
+
+       widget.Clock(
             foreground=colors[5],
             background=colors[1],
             fontsize=12,
-            format="%Y-%m-%d %H:%M"
+            format="%d.%m.%Y  %H:%M"
         ),
             ]
 
 
 def init_main_widgets_list():
     widget_list = init_widgets_list()
-    widget_list.extend([widget.Sep(
-            linewidth=1,
-            padding=10,
-            foreground=colors[2],
-            background=colors[1]
-        ),
+    widget_list.extend([
         widget.Systray(
             background=colors[1],
             icon_size=20,
