@@ -1,3 +1,27 @@
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'https://github.com/junegunn/fzf.vim'
+
+Plug 'vim-syntastic/syntastic'
+
+" Function tagging
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-easytags'
+Plug 'majutsushi/tagbar'
+
+Plug 'https://github.com/scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'christoomey/vim-tmux-navigator'
+
+call plug#end()
+
 set showmatch               " show matching brackets.
 set ignorecase              " case insensitive matching
 set mouse=v                 " middle-click paste with mouse
@@ -19,29 +43,35 @@ set splitright
 
 set termguicolors           " colorsupport
 
+let g:gruvbox_italic=1
+colorscheme gruvbox
+
+" ----- xolox/vim-easytags settings -----
+" Where to look for tags files
+set tags=./tags;,~/.vimtags
+" Sensible defaults
+let g:easytags_events = ['BufReadPost', 'BufWritePost']
+let g:easytags_async = 1
+let g:easytags_dynamic_files = 2
+let g:easytags_resolve_links = 1
+let g:easytags_suppress_ctags_warning = 1
+
+
 let mapleader=" "
 
-map <leader>h :noh<CR>              " Hide search highlighting
-map <leader>r :so %<CR>             " Reload config
-map <leader>t :NERDTreeToggle<CR>   
+" resize
+noremap <C-j> :resize +1<CR>
+noremap <C-k> :resize -1<CR>
+noremap <C-h> :vertical resize -1<CR>
+noremap <C-l> :vertical resize +1<CR>
 
-call plug#begin('~/.config/nvim/plugged')
+nmap <leader>h :noh<CR>              " Hide search highlighting
+nmap <leader>r :so %<CR>             " Reload config
+nmap <leader>t :NERDTreeToggle<CR>   
+" Open/close tagbar with \b
+nmap <silent> <leader>b :TagbarToggle<CR>
 
-Plug 'https://github.com/junegunn/fzf.vim'
 
-Plug 'https://github.com/dense-analysis/ale'
 
-Plug 'https://github.com/scrooloose/nerdtree'
-
-Plug 'morhetz/gruvbox'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-call plug#end()
-
-let g:gruvbox_italic=1
-
-colorscheme gruvbox
 
 

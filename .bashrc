@@ -165,3 +165,5 @@ alias ssn="sudo shutdown now"
 
 neofetch
 source /usr/share/nvm/init-nvm.sh
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

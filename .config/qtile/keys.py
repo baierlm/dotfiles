@@ -20,7 +20,7 @@ def init_keys():
         Key([mod], "d", lazy.spawn('rofi -show run'), desc='Rofi'),
         Key([mod], "q", lazy.window.kill(), desc='Kill Window'),
         Key([mod], "x", lazy.spawn('oblogout'), desc='Oblogout'),
-        Key([mod], "Return", lazy.spawn('termite'), desc='Termite'),
+        Key([mod], "Return", lazy.spawn('termite -e "tmux -f /home/mark/.config/tmux/tmux.conf"'), desc='Termite'),
         #Key([mod], "s", lazy.run_external(home + '/.config/qtile/group_setups.py'), desc='Dropdown Terminal'),
 
         # SUPER + SHIFT KEYS
@@ -31,6 +31,7 @@ def init_keys():
         Key([mod, "shift"], "r", lazy.restart(), desc='Reload Qtile'),
         Key([mod, "shift"], "x", lazy.shutdown(), desc='Kill Qtile'),
 
+        Key([mod, "shift"], "Return", lazy.spawn('termite'), desc='Termite'),
         # CONTROL + ALT KEYS
 
         # ALT + ... KEYS

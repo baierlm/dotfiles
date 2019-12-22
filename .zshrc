@@ -81,11 +81,9 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='nvim'
- else
-   export EDITOR='nvim'
- fi
+export EDITOR='nvim'
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -95,14 +93,17 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
- 
+
+
 alias gnlp="cd $UNI/$SEMESTER/NLP/Tutorium"
 alias gims="cd $UNI/$SEMESTER/BP/webapp-ims/packages"
 alias gtu="cd $UNI/$SEMESTER"
 alias gcq="cd ~/.config/qtile"
 
-# Example aliases
  alias zshconfig="nvim ~/.zshrc"
  alias ohmyzsh="nvim ~/.oh-my-zsh"
  alias dotfiles='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 source /usr/share/nvm/init-nvm.sh
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.shortcuts
