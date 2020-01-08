@@ -1,0 +1,15 @@
+# You can add comments to these files with #
+h	~/
+d	~/Documents
+D	~/Downloads
+p	~/Pictures
+s	~/.scripts
+ch	~/.config
+cr  ~/.config/ranger
+ctm ~/.config/termite
+ctx ~/.config/tmux
+cc  ~/.config/compton
+cq  ~/.config/qtile
+ca  ~/.config/awesome
+cnv ~/.config/nvim
+ims ~/TU/WiSe-2019,20/BP/webapp-ims

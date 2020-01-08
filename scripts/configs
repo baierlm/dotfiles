@@ -1,0 +1,9 @@
+cff	~/scripts/folders
+cfc	~/scripts/configs
+cfb	~/.bashrc
+cfz	~/.zshrc
+cfv	~/.vimrc
+cfr	~/.config/ranger/rc.conf
+cft	~/.config/termite/config
+cfa	~/.config/awesome/rc.lua
+cftx ~/.config/tmux/tmux.conf

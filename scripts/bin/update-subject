@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SUBJECT_PATH=$1
+unzip -u -o -d $UNI/$SEMESTER $SUBJECT_PATH
+

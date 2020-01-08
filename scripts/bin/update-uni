@@ -1,0 +1,5 @@
+#!/bin/bash
+for SUBJECT_PATH in "$HOME/Dropbox/TU/$SEMESTER"/*
+do
+  update-subject $SUBJECT_PATH
+done

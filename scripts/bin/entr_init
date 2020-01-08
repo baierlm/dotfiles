@@ -1,0 +1,5 @@
+#!/bin/bash
+killall entr
+(ls $HOME/Dropbox/TU/$SEMESTER/* | entr -n -r -p update-uni &)
+
+(ls $HOME/.config/qtile/*.py | entr -n -r -p -s 'python $HOME/.config/qtile/config.py 2>&1 >/dev/null | while read OUTPUT; do notify-send "$OUTPUT"; done' &)
