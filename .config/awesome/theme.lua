@@ -11,25 +11,35 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font          = "sans 8"
 
-theme.bg_normal     = "#222222"
-theme.bg_focus      = "#535d6c"
-theme.bg_urgent     = "#ff0000"
-theme.bg_minimize   = "#444444"
-theme.bg_systray    = theme.bg_normal
+theme.font                                      = "SNFS Display UltraLight 8"
+theme.fg_normal                                 = "#ffffff"
+theme.fg_focus                                  = "#ffffff"
+theme.bg_normal                                 = "#202020A0"
+theme.bg_focus                                  = "#20202000"
+theme.fg_urgent                                 = "#FF0000"
+theme.bg_urgent                                 = "#12121200"
+theme.border_width                              = 0
+theme.border_normal                             = "#121212"
+theme.border_focus                              = "#848484"
 
-theme.fg_normal     = "#aaaaaa"
-theme.fg_focus      = "#ffffff"
-theme.fg_urgent     = "#ffffff"
-theme.fg_minimize   = "#ffffff"
+theme.tasklist_fg_focus                         = "#ffffff"
+theme.tasklist_fg_normal                        = "#848484"
+theme.tasklist_bg_focus                         = "#20202000"
+theme.tasklist_bg_normal                        = "#20202000"
 
-theme.useless_gap   = dpi(0)
-theme.border_width  = dpi(1)
-theme.border_normal = "#000000"
-theme.border_focus  = "#535d6c"
-theme.border_marked = "#91231c"
+theme.titlebar_bg_normal                        = "#202020"
+theme.titlebar_bg_focus                         = "#202020"
+theme.bg_systray                                = "#202020"
 
+theme.menu_height = 20
+theme.menu_width  = 200
+
+theme.tasklist_sticky                           = ""
+theme.tasklist_ontop                            = ""
+theme.tasklist_floating                         = ""
+theme.tasklist_maximized_horizontal             = ""
+theme.tasklist_maximized_vertical               = ""
 -- There are other variable sets
 -- overriding the default one when
 -- defined, the sets are:

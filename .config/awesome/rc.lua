@@ -361,7 +361,7 @@ awful.rules.rules = {
           "pinentry",
         },
         class = {
-          "oblogout",
+          "Oblogout",
           "Arandr",
           "Blueman-manager",
           "Gpick",
@@ -380,7 +380,7 @@ awful.rules.rules = {
         role = {
           "AlarmWindow",  -- Thunderbird's calendar.
           "ConfigManager",  -- Thunderbird's about:config.
-          "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+          --"pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
         }
       }, properties = { floating = true }},
 
@@ -388,7 +388,10 @@ awful.rules.rules = {
     { rule_any = {type = { "normal", "dialog" }
       }, properties = { titlebars_enabled = true }
     },
+    { rule = { instance = "todoist"},
+        properties = { tag = "5"}
 
+    },
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
@@ -407,6 +410,11 @@ client.connect_signal("manage", function (c)
       and not c.size_hints.program_position then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
+    end
+
+    -- Enable round corners with the shape api
+    c.shape = function(cr,w,h)
+        gears.shape.rounded_rect(cr,w,h,6)
     end
 end)
 

@@ -7,3 +7,4 @@ cfr	~/.config/ranger/rc.conf
 cft	~/.config/termite/config
 cfa	~/.config/awesome/rc.lua
 cftx ~/.config/tmux/tmux.conf
+cfnv ~/.config/nvim/init.vim
