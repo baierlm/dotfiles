@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Config locations
-folders="$HOME/scripts/folders"
-configs="$HOME/scripts/configs"
+folders="$HOME/.scripts/bin/config/folders"
+configs="$HOME/.scripts/bin/config/configs"
 
 # Output locations
 shell_shortcuts="$HOME/.shortcuts"
