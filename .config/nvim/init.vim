@@ -13,8 +13,8 @@ Plug 'vim-syntastic/syntastic'
 " Function tagging
 "Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
-Plug 'https://github.com/ludovicchabant/vim-gutentags.git'
-Plug 'majutsushi/tagbar'
+" Plug 'https://github.com/ludovicchabant/vim-gutentags.git'
+" Plug 'majutsushi/tagbar'
 
 Plug 'https://github.com/scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
