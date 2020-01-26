@@ -24,7 +24,7 @@ run pamac-tray &
 run xfce4-power-manager &
 numlockx on &
 blueberry-tray &
-compton --config $HOME/.config/qtile/scripts/compton.conf &
+compton --config $HOME/.config/compton/compton.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 #dunst &
 entr_init &
