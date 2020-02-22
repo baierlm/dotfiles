@@ -17,10 +17,12 @@ function run {
 #xrandr --output LVDS1 --mode 1366x768 --output DP3 --mode 1920x1080 --right-of LVDS1
 #xrandr --output HDMI2 --mode 1920x1080 --pos 1920x0 --rotate normal --output HDMI1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output VIRTUAL1 --off
 
+run optimus-manager-qt &
 run unclutter &
 run nm-applet &
 run pa-applet &
 run pamac-tray &
+udiskie -a -t -m nested & 
 run xfce4-power-manager &
 numlockx on &
 blueberry-tray &

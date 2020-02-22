@@ -101,8 +101,10 @@ let g:vimtex_fold_manual = 1
 let g:vimtex_latexmk_continuous = 1
 let g:vimtex_compiler_progname = 'nvr'
 let g:vimtex_view_method = 'mupdf'
-
+let g:polyglot_disabled = ['latex']
 let  mapleader=" "
+source ~/.config/nvim/latex.vim
+
 
 " resize
 noremap <C-j> :resize +1<CR>
@@ -110,6 +112,8 @@ noremap <C-k> :resize -1<CR>
 noremap <C-h> :vertical resize -1<CR>
 noremap <C-l> :vertical resize +1<CR>
 
+
+nmap <F6> :setlocal spell! spelllang=en_us<CR>
 nmap <leader>h :noh<CR>              " Hide search highlighting
 nmap <leader>r :so %<CR>             " Reload config
 nmap <leader>t :NERDTreeToggle<CR>
@@ -123,23 +127,9 @@ map K <Plug>(expand_region_expand)
 map J <Plug>(expand_region_shrink)
 " search for selected
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
+
+inoremap <Space><Space> <ESC>/<++><Enter>"_c4l
+
+
 " :%s/\s\+$//e remove training whitespaces
 " :s/\s\+/ /g  remove mutiples of whitespaces
-
-
-
-" NCM2
-" augroup NCM2
-"   autocmd!
-"   " some other settings...
-"   " uncomment this block if you use vimtex for LaTex
-"   autocmd Filetype tex call ncm2#register_source({
-"             \ 'name': 'vimtex',
-"             \ 'priority': 8,
-"             \ 'scope': ['tex'],
-"             \ 'mark': 'tex',
-"             \ 'word_pattern': '\w+',
-"             \ 'complete_pattern': g:vimtex#re#ncm2,
-"             \ 'on_complete': ['ncm2#on_complete#omni', 'vimtex#complete#omnifunc'],
-"             \ })
-" augroup END
