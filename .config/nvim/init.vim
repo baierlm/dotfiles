@@ -106,6 +106,9 @@ let  mapleader=" "
 source ~/.config/nvim/latex.vim
 
 
+source ~/.config/nvim/nerdtree.vim
+
+
 " resize
 noremap <C-j> :resize +1<CR>
 noremap <C-k> :resize -1<CR>
@@ -116,7 +119,6 @@ noremap <C-l> :vertical resize +1<CR>
 nmap <F6> :setlocal spell! spelllang=en_us<CR>
 nmap <leader>h :noh<CR>              " Hide search highlighting
 nmap <leader>r :so %<CR>             " Reload config
-nmap <leader>t :NERDTreeToggle<CR>
 " Open/close tagbar with \b
 nmap <silent> <leader>b :TagbarToggle<CR>
 " copy/paste
@@ -127,8 +129,6 @@ map K <Plug>(expand_region_expand)
 map J <Plug>(expand_region_shrink)
 " search for selected
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
-
-inoremap <Space><Space> <ESC>/<++><Enter>"_c4l
 
 
 " :%s/\s\+$//e remove training whitespaces

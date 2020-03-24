@@ -218,6 +218,8 @@ globalkeys = gears.table.join(
         {description = "open a tmux session in termite", group = "launcher"}),
     awful.key({ modkey }, "f", function () awful.spawn("firefox") end,
         {description = "Firefox", group = "launcher"}),
+    awful.key({ modkey }, "b", function () awful.spawn("brave") end,
+        {description = "Brave", group = "launcher"}),
     awful.key({ modkey }, "d", function () awful.spawn("rofi -show run") end,
         {description = "Rofi", group = "launcher"}),
     awful.key({ modkey }, "p", function () awful.spawn("rofi-pass") end,
