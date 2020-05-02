@@ -32,3 +32,4 @@ compton --config $HOME/.config/compton/compton.conf &
 entr_init &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 run dropbox &
+zotero --headless &

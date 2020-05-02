@@ -85,6 +85,7 @@ export EDITOR='nvim'
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -95,10 +96,6 @@ export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.g
 #
 
 
-alias gnlp="cd $UNI/$SEMESTER/NLP/Tutorium"
-alias gims="cd $UNI/$SEMESTER/BP/webapp-ims/packages"
-alias gtu="cd $UNI/$SEMESTER"
-alias gcq="cd ~/.config/qtile"
 
  alias zshconfig="nvim ~/.zshrc"
  alias ohmyzsh="nvim ~/.oh-my-zsh"
@@ -122,4 +119,4 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
+#source /opt/ros/melodic/setup.zsh

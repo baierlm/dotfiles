@@ -1,59 +1,49 @@
 call plug#begin('~/.config/nvim/plugged')
 
-" Latex
-Plug 'lervag/vimtex'
-Plug 'Konfekt/FastFold' " some speedup
-" pip install neovim-remote for refresh compiled pdf
-
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'https://github.com/junegunn/fzf.vim'
-
-Plug 'vim-syntastic/syntastic'
-
-" Function tagging
-"Plug 'xolox/vim-misc'
-"Plug 'xolox/vim-easytags'
-" Plug 'https://github.com/ludovicchabant/vim-gutentags.git'
-" Plug 'majutsushi/tagbar'
-
-Plug 'https://github.com/scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-
-
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'morhetz/gruvbox'
-
-" Hex color display
-" Plug 'ap/vim-css-color'
 Plug 'norcalli/nvim-colorizer.lua'
-
-" Language packages
-Plug 'sheerun/vim-polyglot'
-
-" Ranger for vim: https://vimawesome.com/plugin/ranger-explorer-vim
-Plug 'iberianpig/ranger-explorer.vim'
-Plug 'rbgrouleff/bclose.vim'
-
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-Plug 'christoomey/vim-tmux-navigator'
-
-" Autocomplete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" Select regions with J, K
 Plug 'terryma/vim-expand-region'
-
-" https://vimawesome.com/plugin/surround-vim
-Plug 'tpope/vim-surround'
-
-" TODO checkout navigation binding: https://vimawesome.com/plugin/easymotion
-Plug 'easymotion/vim-easymotion'
-
-" Icons, has to be last (Nerd font has to be installed) 
-Plug 'ryanoasis/vim-devicons'
+Plug 'morhetz/gruvbox'
 
 call plug#end()
+
+
+
+" coc
+let g:coc_global_extensions = [
+	\ 'coc-python',
+    \ 'coc-pyright',
+    \ 'coc-json',
+    \ 'coc-xml',
+    \ 'coc-css',
+    \ 'coc-tsserver',
+    \ 'coc-actions',
+    \ 'coc-markdownlint',
+	\]
+
+
+let mapleader=" "
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+" Remap for do codeAction of selected region
+function! s:cocActionsOpenFromSelected(type) abort
+  execute 'CocCommand actions.open ' . a:type
+endfunction
+xmap <silent> <leader>a :<C-u>execute 'CocCommand actions.open ' . visualmode()<CR>
+nmap <silent> <leader>a :<C-u>set operatorfunc=<SID>cocActionsOpenFromSelected<CR>g@
+
 
 set showmatch               " show matching brackets.
 set ignorecase              " case insensitive matching
@@ -67,69 +57,30 @@ set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line
                             " just typed
 set number                  " add line numbers
-set wildmode=longest,list   " get bash-like tab completions
+"set wildmode=longest,list   " get bash-like tab completions
 filetype plugin indent on   " allows auto-indenting depending on file type
 syntax on                   " syntax highlighting
 
-set splitbelow              " set split direction
-set splitright
-
 set termguicolors           " colorsupport
-
 let g:gruvbox_italic=1
 colorscheme gruvbox
-
-" ----- xolox/vim-easytags settings -----
-" Where to look for tags files
-"set tags=./tags;,~/.vimtags
-" Sensible defaults
-"let g:easytags_events = ['BufReadPost', 'BufWritePost']
-"let g:easytags_async = 1
-"let g:easytags_dynamic_files = 2
-"let g:easytags_resolve_links = 1
-"let g:easytags_suppress_ctags_warning = 1
-
 let g:airline_theme='base16_gruvbox_dark_hard'
 
-" Enable autocomplete
-let g:deoplete#enable_at_startup = 1
-
-" vimtex
-let g:tex_flavor  = 'latex'
-let g:tex_conceal = ''
-let g:vimtex_fold_manual = 1
-let g:vimtex_latexmk_continuous = 1
-let g:vimtex_compiler_progname = 'nvr'
-let g:vimtex_view_method = 'mupdf'
-let g:polyglot_disabled = ['latex']
-let  mapleader=" "
-source ~/.config/nvim/latex.vim
-
-
-source ~/.config/nvim/nerdtree.vim
-
-
-" resize
-noremap <C-j> :resize +1<CR>
-noremap <C-k> :resize -1<CR>
-noremap <C-h> :vertical resize -1<CR>
-noremap <C-l> :vertical resize +1<CR>
 
 
 nmap <F6> :setlocal spell! spelllang=en_us<CR>
 nmap <leader>h :noh<CR>              " Hide search highlighting
 nmap <leader>r :so %<CR>             " Reload config
-" Open/close tagbar with \b
-nmap <silent> <leader>b :TagbarToggle<CR>
-" copy/paste
 vmap <C-y> "+y<CR>
 map <C-p> "+p<CR>
-
 map K <Plug>(expand_region_expand)
 map J <Plug>(expand_region_shrink)
-" search for selected
-vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " :%s/\s\+$//e remove training whitespaces
 " :s/\s\+/ /g  remove mutiples of whitespaces
+
